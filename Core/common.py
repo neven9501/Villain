@@ -340,26 +340,7 @@ connect <IP> <TEAM_SERVER_PORT>''',
 			'least_args' : 2,
 			'max_args' : 2
 		},
-				
-				
-		'generate' : {
-			'details' : f''' 		
-Generate a reverse shell command. This function has been redesigned to use payload templates, which you can find in Villain/Core/payload_templates and edit or create your own.
 
-Main logic:
-generate payload=<OS_TYPE/HANDLER/PAYLOAD_TEMPLATE> lhost=<IP or INTERFACE> [ obfuscate encode ]
-
-Usage examples:
-generate payload=windows/netcat/powershell_reverse_tcp lhost=eth0 encode
-generate payload=linux/hoaxshell/sh_curl lhost=eth0
-
-- The ENCODE and OBFUSCATE attributes are enabled for certain templates and can be used during payload generation. 
-- For info on a particular template, use "generate" with PAYLOAD being the only provided argument.
-- To catch HoaxShell https-based reverse shells you need to start Villain with SSL.
-- Ultimately, one should edit the templates and add obfuscated versions of the commands for AV evasion.''',
-			'least_args' : 0, # Intentionally set to 0 so that the Payload_Generator class can inform users about missing arguments
-			'max_args' : 7
-		},			
 
 
 		'exec' : {
@@ -373,19 +354,6 @@ exec <COMMAND or LOCAL FILE PATH> <SESSION ID or ALIAS>
 			'max_args' : 2
 		},			
 
-
-		'inject' : {
-			'details' : f''' 			
-Inject a local file using fileless execution over HTTP. The feature works regardless if the session is owned by you or a sibling server. 
-
-From an active pseudo shell prompt:
-inject <LOCAL FILE PATH> 
-
-''',
-			'least_args' : 1,
-			'max_args' : 1,
-			'shell' : True
-		},		
 
 		'repair' : {
 			'details' : f''' 			
@@ -504,15 +472,6 @@ cmdinspector <ON / OFF>''',
 			'max_args' : 1
 		},
 
-		'conptyshell' : {
-			'details' : f'''
-Automatically runs Invoke-ConPtyShell against a session. A new terminal window with netcat listening will pop up (you need to have gnome-terminal installed) and the script will be executed on the target as a new process, spawning a fully interactive shell. Currently works only for powershell.exe sessions.
-
-Usage: 
-conptyshell <IP or INTERFACE> <PORT> <SESSION ID or ALIAS>''',
-			'least_args' : 3,
-			'max_args' : 3
-		},
 
 		'exit' : {
 			'details' : f'''Kill all self-owned sessions and quit.''',
@@ -568,7 +527,6 @@ redirectors pop <REDIRECTOR ID>
 		\r  -------              -----------
 		\r  help         [+]     Print this message.
 		\r  connect      [+]     Connect with a sibling server.
-		\r  generate     [+]     Generate shell scripts.
 		\r  siblings             Print sibling servers data table.
 		\r  sessions             Print established shell sessions data table.
 		\r  backdoors            Print established shell types data table.
@@ -578,7 +536,6 @@ redirectors pop <REDIRECTOR ID>
 		\r  alias        [+]     Set an alias for a shell session.
 		\r  reset        [+]     Reset alias back to the session's unique ID.
 		\r  kill         [+]     Terminate an established shell session.
-		\r  conptyshell  [+]     Slap Invoke-ConPtyShell against a shell session.
 		\r  repair       [+]     Manually correct a session's hostname/username info.
 		\r  id                   Print server's unique ID (Self).
 		\r  cmdinspector [+]     Turn Session Defender on/off.
@@ -595,7 +552,6 @@ redirectors pop <REDIRECTOR ID>
 		\r  Command              Description
 		\r  -------              -----------
 		\r  upload       [+]     Upload files into an active shell session.
-		\r  inject       [+]     Fileless exec of local scripts over http.
 		\r
 		\r  Commands starting with "#" are interpreted as messages and will be 
 		\r  broadcasted to all connected Sibling Servers (chat).
